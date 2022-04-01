@@ -1,3 +1,4 @@
 My first line in project
 London is the capital of GB
 Kyiv is the capital of Ukraine
+Paris is the Capital of France
