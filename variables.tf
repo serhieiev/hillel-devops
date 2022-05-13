@@ -2,7 +2,7 @@
 variable "project" {
   type        = string
   description = "<PROJECT ID>"
-  default     = "serhieiev-hillel"
+  default     = ""
 }
 
 variable "region" {
@@ -20,7 +20,7 @@ variable "zone" {
 variable "key" {
   type        = string
   description = "path to json key to service account"
-  default     = "../../serhieiev-hillel-7bd549b1269e.json"
+  default     = ""
 }
 
 # Instance variables
