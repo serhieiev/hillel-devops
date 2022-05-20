@@ -43,7 +43,7 @@
       state: present
 
   - name: Ensure mysql service is running
-  systemd:
-    name: mysqld
-    state: started
-    enabled: yes
+    systemctl:
+      name: mysqld
+      state: started
+      enabled: yes
