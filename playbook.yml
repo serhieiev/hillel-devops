@@ -41,9 +41,3 @@
     apt:
       name: default-mysql-client
       state: present
-
-  - name: Ensure mysql service is running
-    systemctl:
-      name: mysqld
-      state: started
-      enabled: yes
