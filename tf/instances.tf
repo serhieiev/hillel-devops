@@ -21,7 +21,7 @@ resource "google_compute_instance" "ansible-runner" {
   name         = "ansible-runner"
   machine_type = "f1-micro"
   tags         = ["internal-ssh", "external-ssh"]
-  zone         = "europe-west2-a"
+  zone         = var.zone
 
   boot_disk {
     initialize_params {
@@ -71,7 +71,7 @@ resource "google_compute_instance" "ansible-workers" {
   name                      = "ansible-worker-${count.index}"
   machine_type              = "f1-micro"
   tags                      = ["internal-ssh"]
-  zone                      = "europe-west2-a"
+  zone                      = var.zone
   allow_stopping_for_update = true
 
   boot_disk {

@@ -13,7 +13,7 @@ module "network" {
     {
       subnet_name   = "subnet-01"
       subnet_ip     = var.subnet_cidr
-      subnet_region = "europe-west2"
+      subnet_region = var.region
     }
   ]
 
