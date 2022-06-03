@@ -1,44 +1,43 @@
 ---
-# This playbook will install mysql and create db user and give permissions.
+# This playbook will install MariaDB and create db user and give permissions.
+---
+- name: Install prerequisites
+  apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+  loop: [ 'aptitude' ]
 
-- name: Install Mysql package
-  yum:
-    name: "{{ item }}"
-    state: installed
-  with_items:
-   - mysql-server
-   - MySQL-python
-   - libselinux-python
-   - libsemanage-python
+# Install MariaDB server
+- name: Install MariaDB Packages
+  apt: name={{ item }} update_cache=yes state=latest
+  loop: [ 'mariadb-server', 'python3-pymysql' ]
 
-- name: Configure SELinux to start mysql on any port
-  seboolean:
-    name: mysql_connect_any
-    state: true
-    persistent: yes
-  when: sestatus.rc != 0
-
-- name: Create Mysql configuration file
-  template:
-    src: my.cnf.j2
-    dest: /etc/my.cnf
-  notify:
-  - restart mysql
-
-- name: Start Mysql Service
+# Start MariaDB Service
+- name: Start MariaDB service
   service:
-    name: mysqld
+    name: mariadb
     state: started
-    enabled: yes
+  become: true
 
-- name: insert iptables rule
-  lineinfile:
-    dest: /etc/sysconfig/iptables
-    state: present
-    regexp: "{{ mysql_port }}"
-    insertafter: "^:OUTPUT "
-    line: "-A INPUT -p tcp  --dport {{ mysql_port }} -j  ACCEPT"
-  notify: restart iptables
+# MariaDB Configuration
+- name: Sets the root password
+  mysql_user:
+    name: root
+    password: "{{ user_pass }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    
+- name: Removes all anonymous user accounts
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+    login_user: root
+    login_password: "{{ user_pass }}"
+
+- name: Removes the MySQL test database
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ user_pass }}"
 
 - name: Create Application Database
   mysql_db:
@@ -52,3 +51,5 @@
     priv: "*.*:ALL"
     host: '%'
     state: present
+  notify:
+  - restart mysql
