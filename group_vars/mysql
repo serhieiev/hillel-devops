@@ -1,7 +1,5 @@
 ---
-# These don't have to be explicitly imported by vars_files: they are autopopulated.
 
-mysql_service: mysqld
 mysql_port: 3306
 db_user: serhieiev
 db_name: php_mysql_crud
