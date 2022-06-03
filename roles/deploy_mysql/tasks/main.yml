@@ -18,6 +18,11 @@
   become: true
 
 # MariaDB Configuration
+- name: Make sure pymysql is present
+  pip:
+    name: pymysql
+    state: present
+
 - name: Sets the root password
   mysql_user:
     name: root
