@@ -1,4 +1,3 @@
 ---
-httpd_port: 80
 app_user: serhieiev
 repo: https://github.com/FaztWeb/php-mysql-crud
