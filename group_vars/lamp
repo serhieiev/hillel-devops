@@ -1,6 +1,5 @@
 ---
 mysql_host: "10.10.10.101"
-httpd_port: 80
 app_user: serhieiev
 db_user: serhieiev
 db_name: php_mysql_crud
