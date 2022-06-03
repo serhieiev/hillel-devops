@@ -1,5 +1,10 @@
 ---
-- name: restart iptables
+- name: Reload Apache
   service:
-    name: iptables
+    name: apache2
+    state: reloaded
+
+- name: Restart Apache
+  service:
+    name: apache2
     state: restarted
