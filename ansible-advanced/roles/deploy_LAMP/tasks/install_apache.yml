@@ -1,0 +1,22 @@
+---
+# Apache Configuration
+
+- name: Install prerequisites
+  apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+  loop: [ 'aptitude' ]
+
+- name: Install LAMP Packages
+  apt: name={{ item }} update_cache=yes state=latest
+  loop: [ 'apache2', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php', 'git' ]
+
+- name: Create document root
+  file:
+    path: "/var/web/html"
+    state: directory
+    owner: "{{ app_user }}"
+    mode: '0755'
+
+- name: delete file
+  file:
+    path: /var/www/html/index.html
+    state: absent

@@ -1,0 +1,6 @@
+---
+
+mysql_port: 3306
+db_user: serhieiev
+db_name: php_mysql_crud
+user_pass: Qwerty123!

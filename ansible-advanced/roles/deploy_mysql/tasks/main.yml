@@ -1,0 +1,60 @@
+---
+# This playbook will install MariaDB and create db user and give permissions.
+
+- name: Install prerequisites
+  apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+  loop: [ 'aptitude' ]
+
+# Install MariaDB server
+- name: Install MariaDB Packages
+  apt: name={{ item }} update_cache=yes state=latest
+  loop: [ 'mariadb-server', 'python3-pip', 'python3-setuptools', 'python3-mysqldb' ]
+
+# Start MariaDB Service
+- name: Start MariaDB service
+  service:
+    name: mariadb
+    state: started
+  become: true
+
+# MariaDB Configuration
+- name: Make sure pymysql is present
+  pip:
+    name: pymysql
+    state: present
+
+- name: Sets the root password
+  mysql_user:
+    name: root
+    password: "{{ user_pass }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    
+- name: Removes all anonymous user accounts
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+    login_user: root
+    login_password: "{{ user_pass }}"
+
+- name: Removes the MySQL test database
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ user_pass }}"
+
+- name: Create Application Database
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+
+- name: Create Application DB User
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ user_pass }}"
+    priv: "*.*:ALL"
+    host: '%'
+    state: present
+  notify:
+  - restart mysql

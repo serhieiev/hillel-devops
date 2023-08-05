@@ -1,0 +1,11 @@
+[app_one]
+app1 ansible_host=10.10.10.100 ansible_ssh_private_key_file=/tmp/sshkey
+
+[app_two]
+app2 ansible_host=10.10.10.101 ansible_ssh_private_key_file=/tmp/sshkey
+
+[lamp:children]
+app_one
+
+[mysql:children]
+app_two

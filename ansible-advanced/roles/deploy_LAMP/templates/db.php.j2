@@ -1,0 +1,11 @@
+<?php
+session_start();
+
+$conn = mysqli_connect(
+  '{{ mysql_host }}',
+  '{{ db_user }}',
+  '{{ user_pass }}',
+  '{{ db_name}}'
+) or die(mysqli_error($mysqli));
+
+?>

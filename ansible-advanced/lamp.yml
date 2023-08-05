@@ -1,0 +1,20 @@
+---
+# This playbook deploys the whole application stack in this site.
+
+- name: configure and deploy the webservers and application code
+  hosts: lamp
+  remote_user: serhieiev
+  become: yes
+  become_method: sudo
+
+  roles:
+    - deploy_LAMP
+
+- name: deploy MySQL and configure the databases
+  hosts: mysql
+  remote_user: serhieiev
+  become: yes
+  become_method: sudo
+
+  roles:
+    - deploy_mysql
