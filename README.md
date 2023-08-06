@@ -18,4 +18,4 @@
  ![terraform](https://img.shields.io/badge/-terraform-purple?logo=terraform&logoColor=white)
 
 Credits:
-Icons made by [Icons8](https://shields.io)
+Icons made by [Shields.io](https://shields.io)
